@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Торговая площадка предметов Roblox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oxanium:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8B0000;
+            --secondary-color: #B22222;
+            --accent-color: #FF4500;
+            --background-dark: #1A1A1A;
+            --background-light: #2A2A2A;
+            --text-color: #FFF5EE;
+            --border-color: #FF6347;
+            --divine-color: #9370DB;
+            --exclusive-color: #FFD700;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, .logo {
+            font-family: 'Oxanium', cursive;
+            font-weight: 700;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .tab-button {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .tab-button.active {
+            background-color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .rarity-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+        
+        .rarity-filter {
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .rarity-filter:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+        
+        .rarity-filter.active {
+            font-weight: 600;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .divine { background-color: var(--divine-color); color: white; }
+        .exclusive { background-color: var(--exclusive-color); color: black; }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .item-card {
+            background-color: var(--background-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        
+        .item-image {
+            width: 100%;
+            height: 180px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-content {
+            padding: 1rem;
+        }
+        
+        .item-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .item-rarity {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .item-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #ccc;
+            margin-bottom: 0.2rem;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: white;
+        }
+        
+        .demand-bar {
+            height: 8px;
+            background-color: #333;
+            border-radius: 4px;
+            margin-top: 0.3rem;
+            overflow: hidden;
+        }
+        
+        .demand-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+        }
+        
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .calculator-panels {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-panels {
+                flex-direction: column;
+            }
+        }
+        
+        .calculator-panel {
+            flex: 1;
+            background-color: var(--background-light);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .panel-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+        
+        .items-list {
+            min-height: 300px;
+            border: 2px dashed var(--border-color);
+            border-radius: 5px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .empty-list {
+            color: #888;
+            text-align: center;
+            margin: auto;
+            font-style: italic;
+        }
+        
+        .calculator-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .calculator-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .calculator-item-info {
+            flex: 1;
+        }
+        
+        .calculator-item-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .calculator-item-price {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+        
+        .calculator-item-demand {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.3rem;
+        }
+        
+        .quantity-btn {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .quantity-value {
+            margin: 0 0.3rem;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        
+        .available-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .available-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .available-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .available-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 0.3rem;
+        }
+        
+        .available-item-name {
+            font-size: 0.7rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .calculator-results {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--background-light);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-box {
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .demand-difference {
+            font-size: 1rem;
+            color: #FF6347;
+            font-weight: 600;
+        }
+        
+        .demand-positive {
+            color: #32CD32;
+        }
+        
+        .panel-stats {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Стили для вкладки с Telegram */
+        .telegram-content {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .telegram-card {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 1rem auto;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .telegram-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #0088cc;
+        }
+        
+        .telegram-link {
+            display: inline-block;
+            background-color: #0088cc;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        
+        .telegram-link:hover {
+            background-color: #006699;
+            transform: translateY(-2px);
+        }
+        
+        .channel-description {
+            margin: 1rem 0;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ROBLOX TRADE HUB</div>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="items">Предметы</button>
+            <button class="tab-button" data-tab="calculator">Калькулятор</button>
+            <button class="tab-button" data-tab="telegram">Telegram</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="tab-content active" id="items-content">
+            <h2>Доступные предметы</h2>
+            
+            <div class="rarity-filters">
+                <div class="rarity-filter divine active" data-rarity="all">Все</div>
+                <div class="rarity-filter divine" data-rarity="divine">Божественные</div>
+                <div class="rarity-filter exclusive" data-rarity="exclusive">Эксклюзивные</div>
+            </div>
+            
+            <div class="items-grid" id="items-grid">
+                <!-- Items will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="tab-content" id="calculator-content">
+            <h2>Калькулятор обмена</h2>
+            
+            <div class="rarity-filters">
+                <div class="rarity-filter divine active" data-rarity="all">Все</div>
+                <div class="rarity-filter divine" data-rarity="divine">Божественные</div>
+                <div class="rarity-filter exclusive" data-rarity="exclusive">Эксклюзивные</div>
+            </div>
+            
+            <div class="calculator">
+                <div class="calculator-panels">
+                    <div class="calculator-panel">
+                        <h3 class="panel-title">Мои предметы</h3>
+                        <div class="items-list" id="left-items">
+                            <div class="empty-list">Перетащите предметы сюда</div>
+                        </div>
+                        <div class="panel-stats">
+                            <div>Общая стоимость: <span id="left-total-value">0</span></div>
+                            <div>Средний спрос: <span id="left-total-demand">0</span>/10</div>
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-panel">
+                        <h3 class="panel-title">Предметы оппонента</h3>
+                        <div class="items-list" id="right-items">
+                            <div class="empty-list">Перетащите предметы сюда</div>
+                        </div>
+                        <div class="panel-stats">
+                            <div>Общая стоимость: <span id="right-total-value">0</span></div>
+                            <div>Средний спрос: <span id="right-total-demand">0</span>/10</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="available-items" id="available-items">
+                    <!-- Available items for calculator will be generated by JavaScript -->
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-box">
+                        <div class="result-label">Разница в стоимости</div>
+                        <div class="result-value" id="value-difference">0</div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <div class="result-label">Разница в спросе</div>
+                        <div class="result-value">
+                            <span id="demand-difference">0</span>
+                            <div class="demand-difference" id="demand-status">=</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="telegram-content">
+            <div class="telegram-content">
+                <h2>Мои Telegram каналы</h2>
+                
+                <div class="telegram-card">
+                    <div class="telegram-icon">📱</div>
+                    <h3>Личный канал</h3>
+                    <p class="channel-description">Мой личный Telegram канал с обновлениями и новостями</p>
+                    <a href="https://t.me/SSKORPIK" class="telegram-link" target="_blank">Перейти в @SSKORPIK</a>
+                </div>
+                
+                <div class="telegram-card">
+                    <div class="telegram-icon">🌿</div>
+                    <h3>Канал о сайте</h3>
+                    <p class="channel-description">Канал, посвященный этому сайту и торговле в Roblox</p>
+                    <a href="https://t.me/TIERLISTGARDENTD" class="telegram-link" target="_blank">Перейти в @TIERLISTGARDENTD</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные предметов на основе ваших скриншотов (только Divine и Exclusive)
+        const itemsData = [
+            // Divine items
+            { id: 1, name: "Lucky Clover", rarity: "divine", value: 7750, status: "Unstable", demand: 8, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Lucky+Clover" },
+            { id: 2, name: "Blackwood", rarity: "divine", value: 9200, status: "Slowly Dropping", demand: 7.5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Blackwood" },
+            { id: 3, name: "Seed Mech", rarity: "divine", value: 6800, status: "Fluctuating", demand: 7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Seed+Mech" },
+            { id: 4, name: "Mango Clusters", rarity: "divine", value: 8300, status: "Rising", demand: 8.5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Mango+Clusters" },
+            { id: 5, name: "Crystal Rose", rarity: "divine", value: 7200, status: "Slowly Rising", demand: 8, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Crystal+Rose" },
+            { id: 6, name: "Tuki Tower", rarity: "divine", value: 9500, status: "Stable", demand: 9, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Tuki+Tower" },
+            { id: 7, name: "Electroldan", rarity: "divine", value: 8800, status: "Rising", demand: 8.2, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Electroldan" },
+            { id: 8, name: "Gold Golam", rarity: "divine", value: 10200, status: "Fluctuating", demand: 8.7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Gold+Golam" },
+            { id: 9, name: "Silver Golam", rarity: "divine", value: 9700, status: "Stable", demand: 8.3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Silver+Golam" },
+            
+            // Exclusive items
+            { id: 10, name: "Blossom Barrage", rarity: "exclusive", value: 15000, status: "Rising", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Blossom+Barrage" },
+            { id: 11, name: "Big Mushroom", rarity: "exclusive", value: 12500, status: "Stable", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Big+Mushroom" },
+            { id: 12, name: "Electric Beetroot", rarity: "exclusive", value: 11200, status: "Unstable", demand: 9.5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Electric+Beetroot" },
+            { id: 13, name: "Dual Blaziarbud", rarity: "exclusive", value: 16800, status: "Rising", demand: 9.8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Dual+Blaziarbud" },
+            { id: 14, name: "Rosebeam", rarity: "exclusive", value: 14200, status: "Stable", demand: 9.2, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Rosebeam" },
+            { id: 15, name: "Garrotlastrophe", rarity: "exclusive", value: 13500, status: "Fluctuating", demand: 9.3, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Garrotlastrophe" }
+        ];
+
+        // Генерация карточек предметов
+        function generateItems() {
+            const itemsGrid = document.getElementById('items-grid');
+            itemsGrid.innerHTML = '';
+            
+            const activeFilter = document.querySelector('.rarity-filter.active').dataset.rarity;
+            
+            itemsData.forEach(item => {
+                if (activeFilter !== 'all' && item.rarity !== activeFilter) return;
+                
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+                itemCard.dataset.rarity = item.rarity;
+                
+                const demandPercent = (item.demand / 10) * 100;
+                
+                itemCard.innerHTML = `
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="item-content">
+                        <h3 class="item-title">${item.name}</h3>
+                        <span class="item-rarity ${item.rarity}">${getRarityName(item.rarity)}</span>
+                        
+                        <div class="item-stats">
+                            <div class="stat">
+                                <span class="stat-label">Value</span>
+                                <span class="stat-value">${item.value.toLocaleString()}</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">${item.status}</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Demand</span>
+                                <span class="stat-value">${item.demand}/10</span>
+                                <div class="demand-bar">
+                                    <div class="demand-fill" style="width: ${demandPercent}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                itemsGrid.appendChild(itemCard);
+            });
+        }
+        
+        // Получение названия редкости
+        function getRarityName(rarity) {
+            const names = {
+                'divine': 'Божественный',
+                'exclusive': 'Эксклюзивный'
+            };
+            return names[rarity] || rarity;
+        }
+        
+        // Генерация доступных предметов для калькулятора
+        function generateAvailableItems() {
+            const availableItems = document.getElementById('available-items');
+            availableItems.innerHTML = '';
+            
+            const activeFilter = document.querySelector('.rarity-filter.active').dataset.rarity;
+            
+            itemsData.forEach(item => {
+                if (activeFilter !== 'all' && item.rarity !== activeFilter) return;
+                
+                const availableItem = document.createElement('div');
+                availableItem.className = 'available-item';
+                availableItem.dataset.id = item.id;
+                availableItem.draggable = true;
+                
+                availableItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <span class="available-item-name">${item.name}</span>
+                `;
+                
+                availableItems.appendChild(availableItem);
+            });
+            
+            // После генерации элементов настраиваем перетаскивание
+            setupDragAndDrop();
+        }
+        
+        // Переключение вкладок
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.dataset.tab;
+                    
+                    // Убираем активный класс у всех кнопок и контента
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей кнопке и контенту
+                    button.classList.add('active');
+                    document.getElementById(`${tabName}-content`).classList.add('active');
+                    
+                    // Если переключились на калькулятор, обновляем доступные предметы
+                    if (tabName === 'calculator') {
+                        generateAvailableItems();
+                    }
+                });
+            });
+        }
+        
+        // Настройка фильтров редкости
+        function setupRarityFilters() {
+            const filters = document.querySelectorAll('.rarity-filter');
+            
+            filters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    filters.forEach(f => f.classList.remove('active'));
+                    filter.classList.add('active');
+                    
+                    // Обновляем отображение в зависимости от активной вкладки
+                    const activeTab = document.querySelector('.tab-content.active').id;
+                    
+                    if (activeTab === 'items-content') {
+                        generateItems();
+                    } else if (activeTab === 'calculator-content') {
+                        generateAvailableItems();
+                    }
+                });
+            });
+        }
+        
+        // Настройка перетаскивания для калькулятора
+        function setupDragAndDrop() {
+            const availableItems = document.querySelectorAll('.available-item');
+            const leftItems = document.getElementById('left-items');
+            const rightItems = document.getElementById('right-items');
+            
+            // Удаляем старые обработчики событий
+            availableItems.forEach(item => {
+                item.replaceWith(item.cloneNode(true));
+            });
+            
+            // Получаем обновленные элементы
+            const updatedAvailableItems = document.querySelectorAll('.available-item');
+            
+            updatedAvailableItems.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.dataset.id);
+                });
+            });
+            
+            // Функция для обработки перетаскивания в список
+            function setupDropZone(dropZone) {
+                // Удаляем старые обработчики
+                dropZone.replaceWith(dropZone.cloneNode(true));
+                const updatedDropZone = document.getElementById(dropZone.id);
+                
+                updatedDropZone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.style.backgroundColor = 'rgba(139, 0, 0, 0.2)';
+                });
+                
+                updatedDropZone.addEventListener('dragleave', function() {
+                    this.style.backgroundColor = '';
+                });
+                
+                updatedDropZone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.style.backgroundColor = '';
+                    
+                    const itemId = e.dataTransfer.getData('text/plain');
+                    const itemData = itemsData.find(item => item.id == itemId);
+                    
+                    if (itemData) {
+                        addItemToCalculator(this, itemData);
+                        updateCalculatorResults();
+                    }
+                });
+                
+                return updatedDropZone;
+            }
+            
+            // Настройка зон для перетаскивания
+            const updatedLeftItems = setupDropZone(leftItems);
+            const updatedRightItems = setupDropZone(rightItems);
+            
+            // Обновляем ссылки на элементы в DOM
+            window.leftItems = updatedLeftItems;
+            window.rightItems = updatedRightItems;
+        }
+        
+        // Добавление предмета в калькулятор
+        function addItemToCalculator(container, itemData) {
+            // Убираем сообщение о пустом списке, если оно есть
+            const emptyMessage = container.querySelector('.empty-list');
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+            
+            // Проверяем, не добавлен ли уже этот предмет
+            const existingItem = container.querySelector(`.calculator-item[data-id="${itemData.id}"]`);
+            
+            if (existingItem) {
+                // Если предмет уже есть, увеличиваем количество
+                const quantityElement = existingItem.querySelector('.quantity-value');
+                let quantity = parseInt(quantityElement.textContent);
+                quantity++;
+                quantityElement.textContent = quantity;
+                
+                // Обновляем данные
+                existingItem.dataset.quantity = quantity;
+            } else {
+                // Если предмета нет, создаем новый
+                const itemElement = document.createElement('div');
+                itemElement.className = 'calculator-item';
+                itemElement.dataset.id = itemData.id;
+                itemElement.dataset.value = itemData.value;
+                itemElement.dataset.demand = itemData.demand;
+                itemElement.dataset.quantity = 1;
+                
+                itemElement.innerHTML = `
+                    <img src="${itemData.image}" alt="${itemData.name}">
+                    <div class="calculator-item-info">
+                        <div class="calculator-item-name">${itemData.name}</div>
+                        <div class="calculator-item-price">${itemData.value.toLocaleString()}</div>
+                        <div class="calculator-item-demand">Demand: ${itemData.demand}/10</div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus">-</button>
+                            <span class="quantity-value">1</span>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-item">&times;</button>
+                `;
+                
+                // Добавляем обработчики для кнопок количества
+                const minusBtn = itemElement.querySelector('.minus');
+                const plusBtn = itemElement.querySelector('.plus');
+                const quantityValue = itemElement.querySelector('.quantity-value');
+                const removeBtn = itemElement.querySelector('.remove-item');
+                
+                minusBtn.addEventListener('click', function() {
+                    let quantity = parseInt(quantityValue.textContent);
+                    if (quantity > 1) {
+                        quantity--;
+                        quantityValue.textContent = quantity;
+                        itemElement.dataset.quantity = quantity;
+                        updateCalculatorResults();
+                    }
+                });
+                
+                plusBtn.addEventListener('click', function() {
+                    let quantity = parseInt(quantityValue.textContent);
+                    quantity++;
+                    quantityValue.textContent = quantity;
+                    itemElement.dataset.quantity = quantity;
+                    updateCalculatorResults();
+                });
+                
+                removeBtn.addEventListener('click', function() {
+                    itemElement.remove();
+                    
+                    // Если список пуст, добавляем сообщение
+                    if (container.children.length === 0) {
+                        const emptyMsg = document.createElement('div');
+                        emptyMsg.className = 'empty-list';
+                        emptyMsg.textContent = 'Перетащите предметы сюда';
+                        container.appendChild(emptyMsg);
+                    }
+                    
+                    updateCalculatorResults();
+                });
+                
+                container.appendChild(itemElement);
+            }
+            
+            updateCalculatorResults();
+        }
+        
+        // Обновление результатов калькулятора
+        function updateCalculatorResults() {
+            const leftItems = document.querySelectorAll('#left-items .calculator-item');
+            const rightItems = document.querySelectorAll('#right-items .calculator-item');
+            
+            // Вычисляем общую стоимость
+            let leftValue = 0;
+            leftItems.forEach(item => {
+                const quantity = parseInt(item.dataset.quantity);
+                leftValue += parseInt(item.dataset.value) * quantity;
+            });
+            
+            let rightValue = 0;
+            rightItems.forEach(item => {
+                const quantity = parseInt(item.dataset.quantity);
+                rightValue += parseInt(item.dataset.value) * quantity;
+            });
+            
+            // Вычисляем средний спрос
+            let leftDemand = 0;
+            let leftTotalItems = 0;
+            
+            if (leftItems.length > 0) {
+                leftItems.forEach(item => {
+                    const quantity = parseInt(item.dataset.quantity);
+                    leftDemand += parseFloat(item.dataset.demand) * quantity;
+                    leftTotalItems += quantity;
+                });
+                leftDemand = (leftDemand / leftTotalItems).toFixed(1);
+            }
+            
+            let rightDemand = 0;
+            let rightTotalItems = 0;
+            
+            if (rightItems.length > 0) {
+                rightItems.forEach(item => {
+                    const quantity = parseInt(item.dataset.quantity);
+                    rightDemand += parseFloat(item.dataset.demand) * quantity;
+                    rightTotalItems += quantity;
+                });
+                rightDemand = (rightDemand / rightTotalItems).toFixed(1);
+            }
+            
+            // Обновляем значения на странице
+            document.getElementById('left-total-value').textContent = leftValue.toLocaleString();
+            document.getElementById('right-total-value').textContent = rightValue.toLocaleString();
+            document.getElementById('left-total-demand').textContent = leftDemand;
+            document.getElementById('right-total-demand').textContent = rightDemand;
+            
+            const valueDifference = rightValue - leftValue;
+            document.getElementById('value-difference').textContent = valueDifference.toLocaleString();
+            
+            const demandDifference = (rightDemand - leftDemand).toFixed(1);
+            const demandElement = document.getElementById('demand-difference');
+            const demandStatus = document.getElementById('demand-status');
+            
+            demandElement.textContent = Math.abs(demandDifference);
+            
+            if (demandDifference > 0) {
+                demandStatus.textContent = '↑';
+                demandStatus.className = 'demand-difference demand-positive';
+            } else if (demandDifference < 0) {
+                demandStatus.textContent = '↓';
+                demandStatus.className = 'demand-difference';
+            } else {
+                demandStatus.textContent = '=';
+                demandStatus.className = 'demand-difference';
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            generateItems();
+            generateAvailableItems();
+            setupTabs();
+            setupRarityFilters();
+        });
+    </script>
+</body>
+</html>
