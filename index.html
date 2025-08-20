@@ -34,6 +34,7 @@
             background-color: var(--background-dark);
             color: var(--text-color);
             line-height: 1.6;
+            padding-bottom: 20px;
         }
         
         h1, h2, h3, h4, .logo {
@@ -326,54 +327,6 @@
             gap: 1.5rem;
         }
         
-        @media (max-width: 768px) {
-            .calculator-panels {
-                flex-direction: column;
-            }
-            
-            /* Стили для карточек на мобильных устройствах */
-            .items-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 0.8rem;
-            }
-            
-            .item-card {
-                margin-bottom: 0;
-                transform: scale(1);
-            }
-            
-            .item-card:hover {
-                transform: translateY(-3px);
-            }
-            
-            .item-image {
-                height: 120px;
-            }
-            
-            .item-content {
-                padding: 0.6rem;
-            }
-            
-            .item-title {
-                font-size: 0.85rem;
-            }
-            
-            .item-rarity {
-                font-size: 0.7rem;
-                padding: 0.2rem 0.5rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .item-stats {
-                gap: 0.3rem;
-                font-size: 0.8rem;
-            }
-            
-            .stat-label {
-                font-size: 0.7rem;
-            }
-        }
-        
         .calculator-panel {
             flex: 1;
             background-color: var(--background-light);
@@ -616,6 +569,185 @@
         .channel-description {
             margin: 1rem 0;
             color: #ccc;
+        }
+        
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+            
+            .tab-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            /* Адаптация калькулятора для мобильных */
+            .calculator-panels {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .calculator-panel {
+                padding: 0.8rem;
+            }
+            
+            .items-list {
+                min-height: 200px;
+                padding: 0.8rem;
+            }
+            
+            .calculator-results {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0.8rem;
+            }
+            
+            .result-value {
+                font-size: 1.2rem;
+            }
+            
+            /* Адаптация карточек предметов для мобильных */
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 0.8rem;
+            }
+            
+            .item-card {
+                margin-bottom: 0;
+            }
+            
+            .item-image {
+                height: 120px;
+            }
+            
+            .item-content {
+                padding: 0.6rem;
+            }
+            
+            .item-title {
+                font-size: 0.85rem;
+            }
+            
+            .item-rarity {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .item-stats {
+                gap: 0.3rem;
+                font-size: 0.8rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            
+            /* Адаптация доступных предметов в калькуляторе */
+            .available-items {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 0.4rem;
+            }
+            
+            .available-item {
+                padding: 0.4rem;
+            }
+            
+            .available-item img {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .available-item-name {
+                font-size: 0.6rem;
+            }
+            
+            /* Адаптация фильтров */
+            .rarity-filters {
+                gap: 0.3rem;
+            }
+            
+            .rarity-filter {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            /* Адаптация Telegram раздела */
+            .telegram-content {
+                padding: 1rem;
+            }
+            
+            .telegram-card {
+                padding: 1rem;
+                margin: 0.5rem auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 0.6rem;
+            }
+            
+            .item-image {
+                height: 100px;
+            }
+            
+            .item-content {
+                padding: 0.5rem;
+            }
+            
+            .item-title {
+                font-size: 0.8rem;
+            }
+            
+            .item-stats {
+                grid-template-columns: 1fr;
+                gap: 0.2rem;
+                font-size: 0.75rem;
+            }
+            
+            .tab-button {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .calculator-item {
+                padding: 0.4rem;
+            }
+            
+            .calculator-item img {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .calculator-item-name {
+                font-size: 0.8rem;
+            }
+            
+            .calculator-item-price, .calculator-item-demand {
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* Улучшенная прокрутка для мобильных */
+        .tabs-scroll {
+            -webkit-overflow-scrolling: touch; /* Плавная прокрутка на iOS */
+        }
+        
+        /* Всегда показывать кнопки прокрутки на мобильных */
+        @media (max-width: 768px) {
+            .scroll-button {
+                display: block !important;
+                width: 25px;
+                background-color: rgba(178, 34, 34, 0.9);
+            }
         }
     </style>
 </head>
