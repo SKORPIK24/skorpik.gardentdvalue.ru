@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Торговая площадка предметов Roblox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.5, user-scalable=yes">
+    <title>SKORPIK VALUE</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oxanium:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,6 +28,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -35,6 +36,7 @@
             color: var(--text-color);
             line-height: 1.6;
             padding-bottom: 20px;
+            transform-origin: top center;
         }
         
         h1, h2, h3, h4, .logo {
@@ -59,12 +61,6 @@
             letter-spacing: 1px;
         }
         
-        .tabs-container {
-            position: relative;
-            margin-top: 1rem;
-            overflow: hidden;
-        }
-        
         .tabs-scroll {
             display: flex;
             overflow-x: auto;
@@ -72,6 +68,7 @@
             -ms-overflow-style: none;
             scroll-behavior: smooth;
             padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch;
         }
         
         .tabs-scroll::-webkit-scrollbar {
@@ -85,32 +82,6 @@
             border-radius: 5px;
             overflow: hidden;
             flex-shrink: 0;
-        }
-        
-        .scroll-button {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 30px;
-            background-color: rgba(178, 34, 34, 0.8);
-            border: none;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10;
-            display: none;
-        }
-        
-        .scroll-button.left {
-            left: 0;
-        }
-        
-        .scroll-button.right {
-            right: 0;
-        }
-        
-        .tabs-container:hover .scroll-button {
-            display: block;
         }
         
         .tab-button {
@@ -506,6 +477,29 @@
             cursor: pointer;
         }
         
+        .modal-rarity-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+        
+        .modal-rarity-filter {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .modal-rarity-filter.active {
+            font-weight: 600;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
         .modal-items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -722,11 +716,11 @@
             }
             
             /* Адаптация фильтров */
-            .rarity-filters {
+            .rarity-filters, .modal-rarity-filters {
                 gap: 0.3rem;
             }
             
-            .rarity-filter {
+            .rarity-filter, .modal-rarity-filter {
                 padding: 0.4rem 0.8rem;
                 font-size: 0.8rem;
             }
@@ -797,30 +791,17 @@
         .tabs-scroll {
             -webkit-overflow-scrolling: touch;
         }
-        
-        /* Всегда показывать кнопки прокрутки на мобильных */
-        @media (max-width: 768px) {
-            .scroll-button {
-                display: block !important;
-                width: 25px;
-                background-color: rgba(178, 34, 34, 0.9);
-            }
-        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">ROBLOX TRADE HUB</div>
-        <div class="tabs-container">
-            <button class="scroll-button left">&lt;</button>
-            <div class="tabs-scroll">
-                <div class="tabs">
-                    <button class="tab-button active" data-tab="items">Предметы</button>
-                    <button class="tab-button" data-tab="calculator">Калькулятор</button>
-                    <button class="tab-button" data-tab="telegram">Telegram</button>
-                </div>
+        <div class="logo">SKORPIK VALUE</div>
+        <div class="tabs-scroll">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="items">Предметы</button>
+                <button class="tab-button" data-tab="calculator">Калькулятор</button>
+                <button class="tab-button" data-tab="telegram">Telegram</button>
             </div>
-            <button class="scroll-button right">&gt;</button>
         </div>
     </header>
     
@@ -913,6 +894,14 @@
         <div class="items-modal-content">
             <button class="close-modal">&times;</button>
             <h3>Выберите предмет</h3>
+            
+            <div class="modal-rarity-filters">
+                <div class="modal-rarity-filter divine active" data-rarity="all">Все</div>
+                <div class="modal-rarity-filter divine" data-rarity="divine">Божественные</div>
+                <div class="modal-rarity-filter exclusive" data-rarity="exclusive">Эксклюзивные</div>
+                <div class="modal-rarity-filter pass" data-rarity="pass">Пассы</div>
+            </div>
+            
             <div class="modal-items-grid" id="modal-items-grid">
                 <!-- Items will be generated by JavaScript -->
             </div>
@@ -1038,7 +1027,11 @@
         function generateModalItems() {
             modalItemsGrid.innerHTML = '';
             
+            const activeFilter = document.querySelector('.modal-rarity-filter.active').dataset.rarity;
+            
             itemsData.forEach(item => {
+                if (activeFilter !== 'all' && item.rarity !== activeFilter) return;
+                
                 const modalItem = document.createElement('div');
                 modalItem.className = 'modal-item';
                 modalItem.dataset.id = item.id;
@@ -1063,6 +1056,12 @@
         // Открытие модального окна
         function openModal(panel) {
             currentPanel = panel;
+            // Сбрасываем фильтры в модальном окне
+            document.querySelectorAll('.modal-rarity-filter').forEach(filter => {
+                filter.classList.remove('active');
+            });
+            document.querySelector('.modal-rarity-filter[data-rarity="all"]').classList.add('active');
+            
             generateModalItems();
             modal.style.display = 'flex';
         }
@@ -1300,40 +1299,19 @@
             });
         }
         
-        // Настройка прокрутки вкладок
-        function setupTabsScrolling() {
-            const tabsContainer = document.querySelector('.tabs-container');
-            const tabsScroll = document.querySelector('.tabs-scroll');
-            const tabs = document.querySelector('.tabs');
-            const scrollLeftBtn = document.querySelector('.scroll-button.left');
-            const scrollRightBtn = document.querySelector('.scroll-button.right');
+        // Настройка фильтров редкости в модальном окне
+        function setupModalRarityFilters() {
+            const filters = document.querySelectorAll('.modal-rarity-filter');
             
-            // Показываем/скрываем кнопки прокрутки при необходимости
-            function updateScrollButtons() {
-                if (tabs.scrollWidth > tabsContainer.offsetWidth) {
-                    scrollLeftBtn.style.display = 'block';
-                    scrollRightBtn.style.display = 'block';
-                } else {
-                    scrollLeftBtn.style.display = 'none';
-                    scrollRightBtn.style.display = 'none';
-                }
-            }
-            
-            // Прокрутка влево
-            scrollLeftBtn.addEventListener('click', () => {
-                tabsScroll.scrollBy({ left: -100, behavior: 'smooth' });
+            filters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    filters.forEach(f => f.classList.remove('active'));
+                    filter.classList.add('active');
+                    
+                    // Обновляем отображение предметов в модальном окне
+                    generateModalItems();
+                });
             });
-            
-            // Прокрутка вправо
-            scrollRightBtn.addEventListener('click', () => {
-                tabsScroll.scrollBy({ left: 100, behavior: 'smooth' });
-            });
-            
-            // Обновляем видимость кнопок при изменении размера окна
-            window.addEventListener('resize', updateScrollButtons);
-            
-            // Инициализация при загрузке
-            updateScrollButtons();
         }
         
         // Настройка кнопок добавления предметов
@@ -1366,7 +1344,7 @@
             generateItems();
             setupTabs();
             setupRarityFilters();
-            setupTabsScrolling();
+            setupModalRarityFilters();
             setupAddItemButtons();
             setupModal();
         });
