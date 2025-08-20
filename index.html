@@ -16,6 +16,11 @@
             --border-color: #FF6347;
             --divine-color: #9370DB;
             --exclusive-color: #FFD700;
+            --pass-color: #20B2AA;
+            --stable-color: #FFD700;
+            --rising-color: #32CD32;
+            --dropping-color: #FF4500;
+            --big-rising-color: #00FF00;
         }
         
         * {
@@ -81,7 +86,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
@@ -124,11 +129,12 @@
         
         .divine { background-color: var(--divine-color); color: white; }
         .exclusive { background-color: var(--exclusive-color); color: black; }
+        .pass { background-color: var(--pass-color); color: white; }
         
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.2rem;
             margin-top: 1rem;
         }
         
@@ -138,16 +144,21 @@
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s, box-shadow 0.3s;
+            transform: scale(0.67);
+            transform-origin: center bottom;
+            margin-bottom: -40px;
         }
         
         .item-card:hover {
-            transform: translateY(-5px);
+            transform: scale(0.72) translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+            position: relative;
         }
         
         .item-image {
             width: 100%;
-            height: 180px;
+            height: 135px;
             background-color: #333;
             display: flex;
             align-items: center;
@@ -168,29 +179,33 @@
         }
         
         .item-content {
-            padding: 1rem;
+            padding: 0.8rem;
         }
         
         .item-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
             color: white;
             font-weight: 600;
+            text-align: center;
         }
         
         .item-rarity {
             display: inline-block;
-            padding: 0.2rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
-            font-size: 0.8rem;
-            margin-bottom: 0.8rem;
+            font-size: 0.7rem;
+            margin-bottom: 0.6rem;
             font-weight: 500;
+            text-align: center;
+            width: 100%;
         }
         
         .item-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
+            gap: 0.4rem;
+            font-size: 0.8rem;
         }
         
         .stat {
@@ -199,7 +214,7 @@
         }
         
         .stat-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #ccc;
             margin-bottom: 0.2rem;
         }
@@ -209,18 +224,50 @@
             color: white;
         }
         
+        .status-stable {
+            color: var(--stable-color);
+        }
+        
+        .status-rising {
+            color: var(--rising-color);
+        }
+        
+        .status-big-rising {
+            color: var(--big-rising-color);
+            font-weight: bold;
+        }
+        
+        .status-dropping {
+            color: var(--dropping-color);
+        }
+        
         .demand-bar {
-            height: 8px;
+            height: 6px;
             background-color: #333;
             border-radius: 4px;
-            margin-top: 0.3rem;
+            margin-top: 0.2rem;
             overflow: hidden;
         }
         
         .demand-fill {
             height: 100%;
-            background-color: var(--accent-color);
             border-radius: 4px;
+        }
+        
+        .demand-stable {
+            background-color: var(--stable-color);
+        }
+        
+        .demand-rising {
+            background-color: var(--rising-color);
+        }
+        
+        .demand-big-rising {
+            background-color: var(--big-rising-color);
+        }
+        
+        .demand-dropping {
+            background-color: var(--dropping-color);
         }
         
         .calculator {
@@ -362,7 +409,7 @@
         
         .available-items {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 0.5rem;
             margin-top: 1rem;
         }
@@ -384,15 +431,15 @@
         }
         
         .available-item img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             object-fit: cover;
             border-radius: 4px;
             margin-bottom: 0.3rem;
         }
         
         .available-item-name {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-align: center;
             font-weight: 500;
         }
@@ -483,35 +530,6 @@
             margin: 1rem 0;
             color: #ccc;
         }
-        
-        .image-help {
-            background-color: var(--background-light);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem auto;
-            max-width: 800px;
-        }
-        
-        .image-help h3 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-        
-        .image-help ol {
-            margin-left: 1.5rem;
-            line-height: 1.8;
-        }
-        
-        .image-help li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .image-help code {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-            font-family: monospace;
-        }
     </style>
 </head>
 <body>
@@ -519,9 +537,9 @@
         <div class="logo">ROBLOX TRADE HUB</div>
         <div class="tabs">
             <button class="tab-button active" data-tab="items">Предметы</button>
+            <button class="tab-button" data-tab="passes">Пассы</button>
             <button class="tab-button" data-tab="calculator">Калькулятор</button>
             <button class="tab-button" data-tab="telegram">Telegram</button>
-            <button class="tab-button" data-tab="help">Помощь</button>
         </div>
     </header>
     
@@ -540,6 +558,14 @@
             </div>
         </div>
         
+        <div class="tab-content" id="passes-content">
+            <h2>Пассы</h2>
+            
+            <div class="items-grid" id="passes-grid">
+                <!-- Pass items will be generated by JavaScript -->
+            </div>
+        </div>
+        
         <div class="tab-content" id="calculator-content">
             <h2>Калькулятор обмена</h2>
             
@@ -547,6 +573,7 @@
                 <div class="rarity-filter divine active" data-rarity="all">Все</div>
                 <div class="rarity-filter divine" data-rarity="divine">Божественные</div>
                 <div class="rarity-filter exclusive" data-rarity="exclusive">Эксклюзивные</div>
+                <div class="rarity-filter pass" data-rarity="pass">Пассы</div>
             </div>
             
             <div class="calculator">
@@ -614,57 +641,58 @@
                 </div>
             </div>
         </div>
-        
-        <div class="tab-content" id="help-content">
-            <div class="image-help">
-                <h3>Как добавить свои изображения на сайт</h3>
-                <ol>
-                    <li>Загрузите изображения на один из бесплатных хостингов:
-                        <ul>
-                            <li><a href="https://imgbb.com/" target="_blank">ImgBB</a> (рекомендуется)</li>
-                            <li><a href="https://postimages.org/" target="_blank">PostImages</a></li>
-                            <li><a href="https://imgur.com/" target="_blank">Imgur</a></li>
-                        </ul>
-                    </li>
-                    <li>После загрузки скопируйте <strong>прямую ссылку</strong> на изображение</li>
-                    <li>В коде найдите массив <code>itemsData</code> и замените ссылки в свойстве <code>image</code></li>
-                    <li>Сохраните изменения и обновите страницу</li>
-                </ol>
-                
-                <p><strong>Пример:</strong></p>
-                <pre><code>{
-    id: 1,
-    name: "Lucky Clover",
-    rarity: "divine",
-    value: 7750,
-    status: "Unstable",
-    demand: 8,
-    image: "https://i.ibb.co/abc123/your-image.png" // Ваша ссылка здесь
-}</code></pre>
-                
-                <p><strong>Примечание:</strong> Некоторые хостинги (включая Catbox) могут блокировать загрузку изображений на других сайтах из-за политики CORS. ImgBB обычно работает без проблем.</p>
-            </div>
-        </div>
     </div>
 
     <script>
-        // Данные предметов на основе ваших скриншотов (только Divine и Exclusive)
+        // Данные предметов
         const itemsData = [
             // Divine items
-            { id: 1, name: "Lucky Clover", rarity: "divine", value: 6700, status: "Stable", demand: 5, image: "https://files.catbox.moe/rivcgt.png" },
+            { id: 1, name: "Lucky Clover", rarity: "divine", value: 6700, status: "stable", demand: 5, image: "https://files.catbox.moe/rivcgt.png" },
+            { id: 2, name: "Pesticider", rarity: "divine", value: 25, status: "dropping", demand: 1, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Pesticider" },
+            { id: 3, name: "Seed Mech", rarity: "divine", value: 1950, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Seed+Mech" },
+            { id: 4, name: "Atomic Pepper", rarity: "divine", value: 230, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Atomic+Pepper" },
+            { id: 5, name: "Shadestool", rarity: "divine", value: 4500, status: "dropping", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Shadestool" },
+            { id: 6, name: "Sporefang", rarity: "divine", value: 275, status: "dropping", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Sporefang" },
+            { id: 7, name: "Beehive", rarity: "divine", value: 5200, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Beehive" },
+            { id: 8, name: "Bubble Plant", rarity: "divine", value: 75, status: "stable", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Bubble+Plant" },
+            { id: 9, name: "Petarlay", rarity: "divine", value: 350, status: "dropping", demand: 7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Petarlay" },
+            { id: 10, name: "Venus Flytrap", rarity: "divine", value: 1150, status: "rising", demand: 7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Venus+Flytrap" },
+            { id: 11, name: "BloodVine", rarity: "divine", value: 750, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=BloodVine" },
+            { id: 12, name: "Tiki Tower", rarity: "divine", value: 550, status: "dropping", demand: 2, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Tiki+Tower" },
+            { id: 13, name: "Electroleaf", rarity: "divine", value: 200, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Electroleaf" },
+            { id: 14, name: "Passion Shooter", rarity: "divine", value: 175, status: "dropping", demand: 6, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Passion+Shooter" },
+            { id: 15, name: "Pyropetal", rarity: "divine", value: 300, status: "dropping", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Pyropetal" },
+            { id: 16, name: "Icebuds", rarity: "divine", value: 175, status: "dropping", demand: 2, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Icebuds" },
+            { id: 17, name: "Mango Cluster", rarity: "divine", value: 2400, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Mango+Cluster" },
+            { id: 18, name: "Stun Flower", rarity: "divine", value: 250, status: "stable", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Stun+Flower" },
+            { id: 19, name: "Rafflesia", rarity: "divine", value: 275, status: "dropping", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Rafflesia" },
+            { id: 20, name: "Lil stump", rarity: "divine", value: 200, status: "dropping", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Lil+stump" },
+            { id: 21, name: "Ballistik banana", rarity: "divine", value: 160, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Ballistik+banana" },
+            { id: 22, name: "Confusion", rarity: "divine", value: 1575, status: "stable", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Confusion" },
             
             // Exclusive items
-            { id: 2, name: "Blossoms Barrage", rarity: "exclusive", value: 20500, status: "Rising", demand: 11, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Blossoms+Barrage" },
-            { id: 3, name: "Rosebeam", rarity: "exclusive", value: 1200, status: "Rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Rosebeam" },
-            { id: 4, name: "Dual Blusterbud", rarity: "exclusive", value: 1700, status: "Rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Dual+Blusterbud" },
-            { id: 5, name: "Big Mushroom", rarity: "exclusive", value: 3275, status: "Rising", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Big+Mushroom" },
-            { id: 6, name: "Juggercorn", rarity: "exclusive", value: 700, status: "Rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Juggercorn" },
-            { id: 7, name: "Hellroot", rarity: "exclusive", value: 1900, status: "Stable", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Hellroot" },
-            { id: 8, name: "Corn", rarity: "exclusive", value: 200, status: "Dropping", demand: 4, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Corn" },
-            { id: 9, name: "Grapes", rarity: "exclusive", value: 700, status: "Rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Grapes" },
-            { id: 10, name: "Carrotastrophe", rarity: "exclusive", value: 600, status: "Rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Carrotastrophe" },
-            { id: 11, name: "Timekeeper", rarity: "exclusive", value: 1000, status: "Stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Timekeeper" },
-            { id: 12, name: "Glass Buble Plant", rarity: "exclusive", value: 425, status: "Rising", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Buble+Plant" }
+            { id: 23, name: "Blossoms Barrage", rarity: "exclusive", value: 20500, status: "big rising", demand: 11, image: "https://files.catbox.moe/97auav.png" },
+            { id: 24, name: "Rosebeam", rarity: "exclusive", value: 1200, status: "rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Rosebeam" },
+            { id: 25, name: "Dual Blusterbud", rarity: "exclusive", value: 1700, status: "rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Dual+Blusterbud" },
+            { id: 26, name: "Big Mushroom", rarity: "exclusive", value: 3275, status: "rising", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Big+Mushroom" },
+            { id: 27, name: "Juggercorn", rarity: "exclusive", value: 700, status: "rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Juggercorn" },
+            { id: 28, name: "Hellroot", rarity: "exclusive", value: 1900, status: "stable", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Hellroot" },
+            { id: 29, name: "Corn", rarity: "exclusive", value: 200, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Corn" },
+            { id: 30, name: "Grapes", rarity: "exclusive", value: 700, status: "rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Grapes" },
+            { id: 31, name: "Carrotastrophe", rarity: "exclusive", value: 600, status: "rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Carrotastrophe" },
+            { id: 32, name: "Timekeeper", rarity: "exclusive", value: 1000, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Timekeeper" },
+            { id: 33, name: "Glass Buble Plant", rarity: "exclusive", value: 425, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Buble+Plant" },
+            { id: 34, name: "Doompetal", rarity: "exclusive", value: 350, status: "stable", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Doompetal" },
+            { id: 35, name: "Glass Blueberries", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Blueberries" },
+            { id: 36, name: "Glass Sunflower", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Sunflower" },
+            { id: 37, name: "Electric Beetroot", rarity: "exclusive", value: 2700, status: "big rising", demand: 11, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Electric+Beetroot" },
+            { id: 38, name: "Glass Bamboo", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Bamboo" },
+            { id: 39, name: "Golem", rarity: "exclusive", value: 475, status: "rising", demand: 7, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Golem" },
+            
+            // Pass items
+            { id: 40, name: "X2 Seeds", rarity: "pass", value: 1100, status: "stable", demand: 0, image: "https://via.placeholder.com/250x180/20B2AA/FFFFFF?text=X2+Seeds" },
+            { id: 41, name: "X3 Speed", rarity: "pass", value: 900, status: "stable", demand: 0, image: "https://via.placeholder.com/250x180/20B2AA/FFFFFF?text=X3+Speed" },
+            { id: 42, name: "VIP", rarity: "pass", value: 675, status: "stable", demand: 0, image: "https://via.placeholder.com/250x180/20B2AA/FFFFFF?text=VIP" }
         ];
 
         // Генерация карточек предметов
@@ -675,51 +703,92 @@
             const activeFilter = document.querySelector('.rarity-filter.active').dataset.rarity;
             
             itemsData.forEach(item => {
+                if (item.rarity === 'pass') return; // Пропускаем пассы
                 if (activeFilter !== 'all' && item.rarity !== activeFilter) return;
                 
-                const itemCard = document.createElement('div');
-                itemCard.className = 'item-card';
-                itemCard.dataset.rarity = item.rarity;
-                
-                const demandPercent = (item.demand / 10) * 100;
-                
-                itemCard.innerHTML = `
-                    <div class="item-image">
-                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/250x180/333333/FFFFFF?text=Image+Not+Found'">
-                    </div>
-                    <div class="item-content">
-                        <h3 class="item-title">${item.name}</h3>
-                        <span class="item-rarity ${item.rarity}">${getRarityName(item.rarity)}</span>
-                        
-                        <div class="item-stats">
-                            <div class="stat">
-                                <span class="stat-label">Value</span>
-                                <span class="stat-value">${item.value.toLocaleString()}</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-label">Status</span>
-                                <span class="stat-value">${item.status}</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-label">Demand</span>
-                                <span class="stat-value">${item.demand}/10</span>
-                                <div class="demand-bar">
-                                    <div class="demand-fill" style="width: ${demandPercent}%"></div>
-                                </div>
+                createItemCard(itemsGrid, item);
+            });
+        }
+        
+        // Генерация карточек пассов
+        function generatePassItems() {
+            const passesGrid = document.getElementById('passes-grid');
+            passesGrid.innerHTML = '';
+            
+            itemsData.forEach(item => {
+                if (item.rarity === 'pass') {
+                    createItemCard(passesGrid, item);
+                }
+            });
+        }
+        
+        // Создание карточки предмета
+        function createItemCard(container, item) {
+            const itemCard = document.createElement('div');
+            itemCard.className = 'item-card';
+            itemCard.dataset.rarity = item.rarity;
+            
+            const demandPercent = (item.demand / 10) * 100;
+            const statusClass = getStatusClass(item.status);
+            const demandClass = getDemandClass(item.status);
+            
+            itemCard.innerHTML = `
+                <div class="item-image">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/250x180/333333/FFFFFF?text=Image+Not+Found'">
+                </div>
+                <div class="item-content">
+                    <h3 class="item-title">${item.name}</h3>
+                    <span class="item-rarity ${item.rarity}">${getRarityName(item.rarity)}</span>
+                    
+                    <div class="item-stats">
+                        <div class="stat">
+                            <span class="stat-label">Value</span>
+                            <span class="stat-value">${item.value.toLocaleString()}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Status</span>
+                            <span class="stat-value ${statusClass}">${item.status}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Demand</span>
+                            <span class="stat-value ${statusClass}">${item.demand}/10</span>
+                            <div class="demand-bar">
+                                <div class="demand-fill ${demandClass}" style="width: ${demandPercent}%"></div>
                             </div>
                         </div>
                     </div>
-                `;
-                
-                itemsGrid.appendChild(itemCard);
-            });
+                </div>
+            `;
+            
+            container.appendChild(itemCard);
+        }
+        
+        // Получение класса для статуса
+        function getStatusClass(status) {
+            status = status.toLowerCase();
+            if (status.includes('stable')) return 'status-stable';
+            if (status.includes('big rising')) return 'status-big-rising';
+            if (status.includes('rising')) return 'status-rising';
+            if (status.includes('dropping')) return 'status-dropping';
+            return 'status-stable';
+        }
+        
+        // Получение класса для demand
+        function getDemandClass(status) {
+            status = status.toLowerCase();
+            if (status.includes('stable')) return 'demand-stable';
+            if (status.includes('big rising')) return 'demand-big-rising';
+            if (status.includes('rising')) return 'demand-rising';
+            if (status.includes('dropping')) return 'demand-dropping';
+            return 'demand-stable';
         }
         
         // Получение названия редкости
         function getRarityName(rarity) {
             const names = {
                 'divine': 'Божественный',
-                'exclusive': 'Эксклюзивный'
+                'exclusive': 'Эксклюзивный',
+                'pass': 'Пасc'
             };
             return names[rarity] || rarity;
         }
@@ -1017,6 +1086,7 @@
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             generateItems();
+            generatePassItems();
             generateAvailableItems();
             setupTabs();
             setupRarityFilters();
