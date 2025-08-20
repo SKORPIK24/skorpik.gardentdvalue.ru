@@ -459,7 +459,7 @@
             background-color: var(--background-light);
             border-radius: 10px;
             padding: 1.5rem;
-            width: 90%;
+            width: 95%;
             max-width: 800px;
             max-height: 80vh;
             overflow-y: auto;
@@ -502,7 +502,7 @@
         
         .modal-items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 0.8rem;
             margin-top: 1rem;
         }
@@ -574,7 +574,7 @@
             margin-top: 1rem;
             padding: 0.5rem;
             background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
+            borderRadius: 5px;
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -702,7 +702,7 @@
             
             /* Адаптация модального окна */
             .modal-items-grid {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                grid-template-columns: repeat(4, 1fr);
                 gap: 0.5rem;
             }
             
@@ -783,8 +783,27 @@
             }
             
             .modal-items-grid {
-                grid-template-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.4rem;
             }
+            
+            .modal-item {
+                padding: 0.3rem;
+            }
+            
+            .modal-item img {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .modal-item-name {
+                font-size: 0.55rem;
+            }
+        }
+        
+        /* Специальные стили для масштабирования калькулятора */
+        .calculator-container {
+            transform-origin: top center;
         }
         
         /* Улучшенная прокрутка для мобильных */
@@ -824,7 +843,7 @@
         <div class="tab-content" id="calculator-content">
             <h2>Калькулятор обмена</h2>
             
-            <div class="calculator">
+            <div class="calculator calculator-container">
                 <div class="calculator-panels">
                     <div class="calculator-panel">
                         <h3 class="panel-title">Мои предметы</h3>
@@ -1241,7 +1260,7 @@
             // Обновляем значения на странице
             document.getElementById('left-total-value').textContent = leftValue.toLocaleString();
             document.getElementById('right-total-value').textContent = rightValue.toLocaleString();
-            document.getElementById('left-total-demand').textContent = leftDemand;
+            document.getElementById('left-total-demand'). textContent = leftDemand;
             document.getElementById('right-total-demand').textContent = rightDemand;
             
             const valueDifference = rightValue - leftValue;
