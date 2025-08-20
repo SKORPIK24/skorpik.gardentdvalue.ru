@@ -20,7 +20,7 @@
             --stable-color: #FFD700;
             --rising-color: #32CD32;
             --dropping-color: #FF4500;
-            --big-rising-color: #9370DB; /* Фиолетовый для Big Rising */
+            --big-rising-color: #9370DB;
         }
         
         * {
@@ -68,14 +68,14 @@
         .tabs-scroll {
             display: flex;
             overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
             scroll-behavior: smooth;
-            padding-bottom: 5px; /* Space for scrollbar */
+            padding-bottom: 5px;
         }
         
         .tabs-scroll::-webkit-scrollbar {
-            display: none; /* Chrome, Safari */
+            display: none;
         }
         
         .tabs {
@@ -187,7 +187,6 @@
             margin-top: 1rem;
         }
         
-        /* Стили для карточек на ПК */
         .item-card {
             background-color: var(--background-light);
             border-radius: 8px;
@@ -333,6 +332,30 @@
             border-radius: 8px;
             padding: 1rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .add-item-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .add-item-btn:hover {
+            background-color: #FF6347;
+            transform: scale(1.1);
         }
         
         .panel-title {
@@ -375,6 +398,7 @@
             height: 40px;
             object-fit: cover;
             border-radius: 4px;
+            background-color: #333;
         }
         
         .calculator-item-info {
@@ -447,40 +471,73 @@
             color: #FF6347;
         }
         
-        .available-items {
+        .items-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .items-modal-content {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .modal-items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.8rem;
             margin-top: 1rem;
         }
         
-        .available-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0.5rem;
+        .modal-item {
             background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
+            border-radius: 8px;
+            padding: 0.5rem;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
         
-        .available-item:hover {
+        .modal-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
             transform: translateY(-3px);
         }
         
-        .available-item img {
-            width: 40px;
-            height: 40px;
+        .modal-item img {
+            width: 50px;
+            height: 50px;
             object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 0.3rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            background-color: #333;
         }
         
-        .available-item-name {
-            font-size: 0.65rem;
-            text-align: center;
+        .modal-item-name {
+            font-size: 0.7rem;
             font-weight: 500;
         }
         
@@ -649,22 +706,18 @@
                 font-size: 0.7rem;
             }
             
-            /* Адаптация доступных предметов в калькуляторе */
-            .available-items {
+            /* Адаптация модального окна */
+            .modal-items-grid {
                 grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-                gap: 0.4rem;
+                gap: 0.5rem;
             }
             
-            .available-item {
-                padding: 0.4rem;
+            .modal-item img {
+                width: 40px;
+                height: 40px;
             }
             
-            .available-item img {
-                width: 35px;
-                height: 35px;
-            }
-            
-            .available-item-name {
+            .modal-item-name {
                 font-size: 0.6rem;
             }
             
@@ -734,11 +787,15 @@
             .calculator-item-price, .calculator-item-demand {
                 font-size: 0.7rem;
             }
+            
+            .modal-items-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
         }
         
         /* Улучшенная прокрутка для мобильных */
         .tabs-scroll {
-            -webkit-overflow-scrolling: touch; /* Плавная прокрутка на iOS */
+            -webkit-overflow-scrolling: touch;
         }
         
         /* Всегда показывать кнопки прокрутки на мобильных */
@@ -759,7 +816,6 @@
             <div class="tabs-scroll">
                 <div class="tabs">
                     <button class="tab-button active" data-tab="items">Предметы</button>
-                    <button class="tab-button" data-tab="passes">Пассы</button>
                     <button class="tab-button" data-tab="calculator">Калькулятор</button>
                     <button class="tab-button" data-tab="telegram">Telegram</button>
                 </div>
@@ -776,6 +832,7 @@
                 <div class="rarity-filter divine active" data-rarity="all">Все</div>
                 <div class="rarity-filter divine" data-rarity="divine">Божественные</div>
                 <div class="rarity-filter exclusive" data-rarity="exclusive">Эксклюзивные</div>
+                <div class="rarity-filter pass" data-rarity="pass">Пассы</div>
             </div>
             
             <div class="items-grid" id="items-grid">
@@ -783,30 +840,16 @@
             </div>
         </div>
         
-        <div class="tab-content" id="passes-content">
-            <h2>Пассы</h2>
-            
-            <div class="items-grid" id="passes-grid">
-                <!-- Pass items will be generated by JavaScript -->
-            </div>
-        </div>
-        
         <div class="tab-content" id="calculator-content">
             <h2>Калькулятор обмена</h2>
-            
-            <div class="rarity-filters">
-                <div class="rarity-filter divine active" data-rarity="all">Все</div>
-                <div class="rarity-filter divine" data-rarity="divine">Божественные</div>
-                <div class="rarity-filter exclusive" data-rarity="exclusive">Эксклюзивные</div>
-                <div class="rarity-filter pass" data-rarity="pass">Пассы</div>
-            </div>
             
             <div class="calculator">
                 <div class="calculator-panels">
                     <div class="calculator-panel">
                         <h3 class="panel-title">Мои предметы</h3>
+                        <button class="add-item-btn" data-panel="left">+</button>
                         <div class="items-list" id="left-items">
-                            <div class="empty-list">Перетащите предметы сюда</div>
+                            <div class="empty-list">Нажмите + чтобы добавить предметы</div>
                         </div>
                         <div class="panel-stats">
                             <div>Общая стоимость: <span id="left-total-value">0</span></div>
@@ -816,18 +859,15 @@
                     
                     <div class="calculator-panel">
                         <h3 class="panel-title">Предметы оппонента</h3>
+                        <button class="add-item-btn" data-panel="right">+</button>
                         <div class="items-list" id="right-items">
-                            <div class="empty-list">Перетащите предметы сюда</div>
+                            <div class="empty-list">Нажмите + чтобы добавить предметы</div>
                         </div>
                         <div class="panel-stats">
                             <div>Общая стоимость: <span id="right-total-value">0</span></div>
                             <div>Средний спрос: <span id="right-total-demand">0</span>/10</div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="available-items" id="available-items">
-                    <!-- Available items for calculator will be generated by JavaScript -->
                 </div>
                 
                 <div class="calculator-results">
@@ -868,59 +908,75 @@
         </div>
     </div>
 
+    <!-- Модальное окно для выбора предметов -->
+    <div class="items-modal" id="items-modal">
+        <div class="items-modal-content">
+            <button class="close-modal">&times;</button>
+            <h3>Выберите предмет</h3>
+            <div class="modal-items-grid" id="modal-items-grid">
+                <!-- Items will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Данные предметов
+        // Данные предметов (включая пассы)
         const itemsData = [
             // Divine items
             { id: 1, name: "Lucky Clover", rarity: "divine", value: 6700, status: "stable", demand: 5, image: "https://files.catbox.moe/rivcgt.png" },
-            { id: 2, name: "Pesticider", rarity: "divine", value: 25, status: "dropping", demand: 1, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Pesticider" },
-            { id: 3, name: "Seed Mech", rarity: "divine", value: 1950, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Seed+Mech" },
-            { id: 4, name: "Atomic Pepper", rarity: "divine", value: 230, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Atomic+Pepper" },
-            { id: 5, name: "Shadestool", rarity: "divine", value: 4500, status: "dropping", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Shadestool" },
-            { id: 6, name: "Sporefang", rarity: "divine", value: 275, status: "dropping", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Sporefang" },
-            { id: 7, name: "Beehive", rarity: "divine", value: 5200, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Beehive" },
-            { id: 8, name: "Bubble Plant", rarity: "divine", value: 75, status: "stable", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Bubble+Plant" },
-            { id: 9, name: "Petarlay", rarity: "divine", value: 350, status: "dropping", demand: 7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Petarlay" },
-            { id: 10, name: "Venus Flytrap", rarity: "divine", value: 1150, status: "rising", demand: 7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Venus+Flytrap" },
-            { id: 11, name: "BloodVine", rarity: "divine", value: 750, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=BloodVine" },
-            { id: 12, name: "Tiki Tower", rarity: "divine", value: 550, status: "dropping", demand: 2, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Tiki+Tower" },
-            { id: 13, name: "Electroleaf", rarity: "divine", value: 200, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Electroleaf" },
-            { id: 14, name: "Passion Shooter", rarity: "divine", value: 175, status: "dropping", demand: 6, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Passion+Shooter" },
-            { id: 15, name: "Pyropetal", rarity: "divine", value: 300, status: "dropping", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Pyropetal" },
-            { id: 16, name: "Icebuds", rarity: "divine", value: 175, status: "dropping", demand: 2, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Icebuds" },
-            { id: 17, name: "Mango Cluster", rarity: "divine", value: 2400, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Mango+Cluster" },
-            { id: 18, name: "Stun Flower", rarity: "divine", value: 250, status: "stable", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Stun+Flower" },
-            { id: 19, name: "Rafflesia", rarity: "divine", value: 275, status: "dropping", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Rafflesia" },
-            { id: 20, name: "Lil stump", rarity: "divine", value: 200, status: "dropping", demand: 3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Lil+stump" },
-            { id: 21, name: "Ballistik banana", rarity: "divine", value: 160, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Ballistik+banana" },
-            { id: 22, name: "Confusion", rarity: "divine", value: 1575, status: "stable", demand: 4, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Confusion" },
+            { id: 2, name: "Pesticider", rarity: "divine", value: 25, status: "dropping", demand: 1, image: "" },
+            { id: 3, name: "Seed Mech", rarity: "divine", value: 1950, status: "dropping", demand: 4, image: "" },
+            { id: 4, name: "Atomic Pepper", rarity: "divine", value: 230, status: "stable", demand: 5, image: "" },
+            { id: 5, name: "Shadestool", rarity: "divine", value: 4500, status: "dropping", demand: 5, image: "" },
+            { id: 6, name: "Sporefang", rarity: "divine", value: 275, status: "dropping", demand: 3, image: "" },
+            { id: 7, name: "Beehive", rarity: "divine", value: 5200, status: "dropping", demand: 4, image: "" },
+            { id: 8, name: "Bubble Plant", rarity: "divine", value: 75, status: "stable", demand: 3, image: "" },
+            { id: 9, name: "Petarlay", rarity: "divine", value: 350, status: "dropping", demand: 7, image: "" },
+            { id: 10, name: "Venus Flytrap", rarity: "divine", value: 1150, status: "rising", demand: 7, image: "" },
+            { id: 11, name: "BloodVine", rarity: "divine", value: 750, status: "dropping", demand: 4, image: "" },
+            { id: 12, name: "Tiki Tower", rarity: "divine", value: 550, status: "dropping", demand: 2, image: "" },
+            { id: 13, name: "Electroleaf", rarity: "divine", value: 200, status: "dropping", demand: 4, image: "" },
+            { id: 14, name: "Passion Shooter", rarity: "divine", value: 175, status: "dropping", demand: 6, image: "" },
+            { id: 15, name: "Pyropetal", rarity: "divine", value: 300, status: "dropping", demand: 5, image: "" },
+            { id: 16, name: "Icebuds", rarity: "divine", value: 175, status: "dropping", demand: 2, image: "" },
+            { id: 17, name: "Mango Cluster", rarity: "divine", value: 2400, status: "dropping", demand: 4, image: "" },
+            { id: 18, name: "Stun Flower", rarity: "divine", value: 250, status: "stable", demand: 3, image: "" },
+            { id: 19, name: "Rafflesia", rarity: "divine", value: 275, status: "dropping", demand: 3, image: "" },
+            { id: 20, name: "Lil stump", rarity: "divine", value: 200, status: "dropping", demand: 3, image: "" },
+            { id: 21, name: "Ballistik banana", rarity: "divine", value: 160, status: "stable", demand: 5, image: "" },
+            { id: 22, name: "Confusion", rarity: "divine", value: 1575, status: "stable", demand: 4, image: "" },
             
             // Exclusive items
             { id: 23, name: "Blossoms Barrage", rarity: "exclusive", value: 20500, status: "big rising", demand: 11, image: "https://files.catbox.moe/97auav.png" },
-            { id: 24, name: "Rosebeam", rarity: "exclusive", value: 1200, status: "rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Rosebeam" },
-            { id: 25, name: "Dual Blusterbud", rarity: "exclusive", value: 1700, status: "rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Dual+Blusterbud" },
-            { id: 26, name: "Big Mushroom", rarity: "exclusive", value: 3275, status: "rising", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Big+Mushroom" },
-            { id: 27, name: "Juggercorn", rarity: "exclusive", value: 700, status: "rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Juggercorn" },
-            { id: 28, name: "Hellroot", rarity: "exclusive", value: 1900, status: "stable", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Hellroot" },
-            { id: 29, name: "Corn", rarity: "exclusive", value: 200, status: "dropping", demand: 4, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Corn" },
-            { id: 30, name: "Grapes", rarity: "exclusive", value: 700, status: "rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Grapes" },
-            { id: 31, name: "Carrotastrophe", rarity: "exclusive", value: 600, status: "rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Carrotastrophe" },
-            { id: 32, name: "Timekeeper", rarity: "exclusive", value: 1000, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Timekeeper" },
-            { id: 33, name: "Glass Buble Plant", rarity: "exclusive", value: 425, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Buble+Plant" },
-            { id: 34, name: "Doompetal", rarity: "exclusive", value: 350, status: "stable", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Doompetal" },
-            { id: 35, name: "Glass Blueberries", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Blueberries" },
-            { id: 36, name: "Glass Sunflower", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Sunflower" },
-            { id: 37, name: "Electric Beetroot", rarity: "exclusive", value: 2700, status: "big rising", demand: 11, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Electric+Beetroot" },
-            { id: 38, name: "Glass Bamboo", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Bamboo" },
-            { id: 39, name: "Golem", rarity: "exclusive", value: 475, status: "rising", demand: 7, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Golem" },
+            { id: 24, name: "Rosebeam", rarity: "exclusive", value: 1200, status: "rising", demand: 9, image: "" },
+            { id: 25, name: "Dual Blusterbud", rarity: "exclusive", value: 1700, status: "rising", demand: 9, image: "" },
+            { id: 26, name: "Big Mushroom", rarity: "exclusive", value: 3275, status: "rising", demand: 10, image: "" },
+            { id: 27, name: "Juggercorn", rarity: "exclusive", value: 700, status: "rising", demand: 8, image: "" },
+            { id: 28, name: "Hellroot", rarity: "exclusive", value: 1900, status: "stable", demand: 10, image: "" },
+            { id: 29, name: "Corn", rarity: "exclusive", value: 200, status: "dropping", demand: 4, image: "" },
+            { id: 30, name: "Grapes", rarity: "exclusive", value: 700, status: "rising", demand: 8, image: "" },
+            { id: 31, name: "Carrotastrophe", rarity: "exclusive", value: 600, status: "rising", demand: 9, image: "" },
+            { id: 32, name: "Timekeeper", rarity: "exclusive", value: 1000, status: "stable", demand: 5, image: "" },
+            { id: 33, name: "Glass Buble Plant", rarity: "exclusive", value: 425, status: "stable", demand: 5, image: "" },
+            { id: 34, name: "Doompetal", rarity: "exclusive", value: 350, status: "stable", demand: 8, image: "" },
+            { id: 35, name: "Glass Blueberries", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "" },
+            { id: 36, name: "Glass Sunflower", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "" },
+            { id: 37, name: "Electric Beetroot", rarity: "exclusive", value: 2700, status: "big rising", demand: 11, image: "" },
+            { id: 38, name: "Glass Bamboo", rarity: "exclusive", value: 400, status: "stable", demand: 5, image: "" },
+            { id: 39, name: "Golem", rarity: "exclusive", value: 475, status: "rising", demand: 7, image: "" },
             
-            // Pass items
-            { id: 40, name: "X2 Seeds", rarity: "pass", value: 1100, status: "stable", demand: 0, image: "https://via.placeholder.com/250x180/20B2AA/FFFFFF?text=X2+Seeds" },
-            { id: 41, name: "X3 Speed", rarity: "pass", value: 900, status: "stable", demand: 0, image: "https://via.placeholder.com/250x180/20B2AA/FFFFFF?text=X3+Speed" },
-            { id: 42, name: "VIP", rarity: "pass", value: 675, status: "stable", demand: 0, image: "https://via.placeholder.com/250x180/20B2AA/FFFFFF?text=VIP" }
+            // Pass items (теперь в разделе предметов)
+            { id: 40, name: "X2 Seeds", rarity: "pass", value: 1100, status: "stable", demand: 0, image: "" },
+            { id: 41, name: "X3 Speed", rarity: "pass", value: 900, status: "stable", demand: 0, image: "" },
+            { id: 42, name: "VIP", rarity: "pass", value: 675, status: "stable", demand: 0, image: "" }
         ];
 
-        // Генерация карточек предметов
+        // Глобальные переменные для управления модальным окном
+        let currentPanel = null;
+        const modal = document.getElementById('items-modal');
+        const modalItemsGrid = document.getElementById('modal-items-grid');
+
+        // Генерация карточек предметов (включая пассы)
         function generateItems() {
             const itemsGrid = document.getElementById('items-grid');
             itemsGrid.innerHTML = '';
@@ -928,22 +984,9 @@
             const activeFilter = document.querySelector('.rarity-filter.active').dataset.rarity;
             
             itemsData.forEach(item => {
-                if (item.rarity === 'pass') return; // Пропускаем пассы
                 if (activeFilter !== 'all' && item.rarity !== activeFilter) return;
                 
                 createItemCard(itemsGrid, item);
-            });
-        }
-        
-        // Генерация карточек пассов
-        function generatePassItems() {
-            const passesGrid = document.getElementById('passes-grid');
-            passesGrid.innerHTML = '';
-            
-            itemsData.forEach(item => {
-                if (item.rarity === 'pass') {
-                    createItemCard(passesGrid, item);
-                }
             });
         }
         
@@ -957,9 +1000,12 @@
             const statusClass = getStatusClass(item.status);
             const demandClass = getDemandClass(item.status);
             
+            // Используем заглушку, если изображение отсутствует
+            const imageUrl = item.image || 'https://via.placeholder.com/250x180/333333/FFFFFF?text=No+Image';
+            
             itemCard.innerHTML = `
                 <div class="item-image">
-                    <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/250x180/333333/FFFFFF?text=Image+Not+Found'">
+                    <img src="${imageUrl}" alt="${item.name}">
                 </div>
                 <div class="item-content">
                     <h3 class="item-title">${item.name}</h3>
@@ -986,6 +1032,45 @@
             `;
             
             container.appendChild(itemCard);
+        }
+        
+        // Генерация предметов для модального окна
+        function generateModalItems() {
+            modalItemsGrid.innerHTML = '';
+            
+            itemsData.forEach(item => {
+                const modalItem = document.createElement('div');
+                modalItem.className = 'modal-item';
+                modalItem.dataset.id = item.id;
+                
+                // Используем заглушку, если изображение отсутствует
+                const imageUrl = item.image || 'https://via.placeholder.com/50x50/333333/FFFFFF?text=!';
+                
+                modalItem.innerHTML = `
+                    <img src="${imageUrl}" alt="${item.name}">
+                    <div class="modal-item-name">${item.name}</div>
+                `;
+                
+                modalItem.addEventListener('click', () => {
+                    addItemToCalculator(currentPanel, item);
+                    closeModal();
+                });
+                
+                modalItemsGrid.appendChild(modalItem);
+            });
+        }
+        
+        // Открытие модального окна
+        function openModal(panel) {
+            currentPanel = panel;
+            generateModalItems();
+            modal.style.display = 'flex';
+        }
+        
+        // Закрытие модального окна
+        function closeModal() {
+            modal.style.display = 'none';
+            currentPanel = null;
         }
         
         // Получение класса для статуса
@@ -1018,140 +1103,10 @@
             return names[rarity] || rarity;
         }
         
-        // Генерация доступных предметов для калькулятора
-        function generateAvailableItems() {
-            const availableItems = document.getElementById('available-items');
-            availableItems.innerHTML = '';
-            
-            const activeFilter = document.querySelector('.rarity-filter.active').dataset.rarity;
-            
-            itemsData.forEach(item => {
-                if (activeFilter !== 'all' && item.rarity !== activeFilter) return;
-                
-                const availableItem = document.createElement('div');
-                availableItem.className = 'available-item';
-                availableItem.dataset.id = item.id;
-                availableItem.draggable = true;
-                
-                availableItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/50x50/333333/FFFFFF?text=!'">
-                    <span class="available-item-name">${item.name}</span>
-                `;
-                
-                availableItems.appendChild(availableItem);
-            });
-            
-            // После генерации элементов настраиваем перетаскивание
-            setupDragAndDrop();
-        }
-        
-        // Переключение вкладок
-        function setupTabs() {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabName = button.dataset.tab;
-                    
-                    // Убираем активный класс у всех кнопок и контента
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                    
-                    // Добавляем активный класс текущей кнопке и контенту
-                    button.classList.add('active');
-                    document.getElementById(`${tabName}-content`).classList.add('active');
-                    
-                    // Если переключились на калькулятор, обновляем доступные предметы
-                    if (tabName === 'calculator') {
-                        generateAvailableItems();
-                    }
-                });
-            });
-        }
-        
-        // Настройка фильтров редкости
-        function setupRarityFilters() {
-            const filters = document.querySelectorAll('.rarity-filter');
-            
-            filters.forEach(filter => {
-                filter.addEventListener('click', () => {
-                    filters.forEach(f => f.classList.remove('active'));
-                    filter.classList.add('active');
-                    
-                    // Обновляем отображение в зависимости от активной вкладки
-                    const activeTab = document.querySelector('.tab-content.active').id;
-                    
-                    if (activeTab === 'items-content') {
-                        generateItems();
-                    } else if (activeTab === 'calculator-content') {
-                        generateAvailableItems();
-                    }
-                });
-            });
-        }
-        
-        // Настройка перетаскивания для калькулятора
-        function setupDragAndDrop() {
-            const availableItems = document.querySelectorAll('.available-item');
-            const leftItems = document.getElementById('left-items');
-            const rightItems = document.getElementById('right-items');
-            
-            // Удаляем старые обработчики событий
-            availableItems.forEach(item => {
-                item.replaceWith(item.cloneNode(true));
-            });
-            
-            // Получаем обновленные элементы
-            const updatedAvailableItems = document.querySelectorAll('.available-item');
-            
-            updatedAvailableItems.forEach(item => {
-                item.addEventListener('dragstart', function(e) {
-                    e.dataTransfer.setData('text/plain', this.dataset.id);
-                });
-            });
-            
-            // Функция для обработки перетаскивания в список
-            function setupDropZone(dropZone) {
-                // Удаляем старые обработчики
-                dropZone.replaceWith(dropZone.cloneNode(true));
-                const updatedDropZone = document.getElementById(dropZone.id);
-                
-                updatedDropZone.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    this.style.backgroundColor = 'rgba(139, 0, 0, 0.2)';
-                });
-                
-                updatedDropZone.addEventListener('dragleave', function() {
-                    this.style.backgroundColor = '';
-                });
-                
-                updatedDropZone.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.style.backgroundColor = '';
-                    
-                    const itemId = e.dataTransfer.getData('text/plain');
-                    const itemData = itemsData.find(item => item.id == itemId);
-                    
-                    if (itemData) {
-                        addItemToCalculator(this, itemData);
-                        updateCalculatorResults();
-                    }
-                });
-                
-                return updatedDropZone;
-            }
-            
-            // Настройка зон для перетаскивания
-            const updatedLeftItems = setupDropZone(leftItems);
-            const updatedRightItems = setupDropZone(rightItems);
-            
-            // Обновляем ссылки на элементы в DOM
-            window.leftItems = updatedLeftItems;
-            window.rightItems = updatedRightItems;
-        }
-        
         // Добавление предмета в калькулятор
-        function addItemToCalculator(container, itemData) {
+        function addItemToCalculator(panel, itemData) {
+            const container = document.getElementById(`${panel}-items`);
+            
             // Убираем сообщение о пустом списке, если оно есть
             const emptyMessage = container.querySelector('.empty-list');
             if (emptyMessage) {
@@ -1179,8 +1134,11 @@
                 itemElement.dataset.demand = itemData.demand;
                 itemElement.dataset.quantity = 1;
                 
+                // Используем заглушку, если изображение отсутствует
+                const imageUrl = itemData.image || 'https://via.placeholder.com/40x40/333333/FFFFFF?text=!';
+                
                 itemElement.innerHTML = `
-                    <img src="${itemData.image}" alt="${itemData.name}" onerror="this.src='https://via.placeholder.com/40x40/333333/FFFFFF?text=!'">
+                    <img src="${imageUrl}" alt="${itemData.name}">
                     <div class="calculator-item-info">
                         <div class="calculator-item-name">${itemData.name}</div>
                         <div class="calculator-item-price">${itemData.value.toLocaleString()}</div>
@@ -1225,7 +1183,7 @@
                     if (container.children.length === 0) {
                         const emptyMsg = document.createElement('div');
                         emptyMsg.className = 'empty-list';
-                        emptyMsg.textContent = 'Перетащите предметы сюда';
+                        emptyMsg.textContent = 'Нажмите + чтобы добавить предметы';
                         container.appendChild(emptyMsg);
                     }
                     
@@ -1308,6 +1266,40 @@
             }
         }
         
+        // Переключение вкладок
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.dataset.tab;
+                    
+                    // Убираем активный класс у всех кнопок и контента
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей кнопке и контенту
+                    button.classList.add('active');
+                    document.getElementById(`${tabName}-content`).classList.add('active');
+                });
+            });
+        }
+        
+        // Настройка фильтров редкости
+        function setupRarityFilters() {
+            const filters = document.querySelectorAll('.rarity-filter');
+            
+            filters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    filters.forEach(f => f.classList.remove('active'));
+                    filter.classList.add('active');
+                    
+                    // Обновляем отображение предметов
+                    generateItems();
+                });
+            });
+        }
+        
         // Настройка прокрутки вкладок
         function setupTabsScrolling() {
             const tabsContainer = document.querySelector('.tabs-container');
@@ -1344,14 +1336,39 @@
             updateScrollButtons();
         }
         
+        // Настройка кнопок добавления предметов
+        function setupAddItemButtons() {
+            const addButtons = document.querySelectorAll('.add-item-btn');
+            
+            addButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const panel = button.dataset.panel;
+                    openModal(panel);
+                });
+            });
+        }
+        
+        // Настройка модального окна
+        function setupModal() {
+            const closeButton = document.querySelector('.close-modal');
+            
+            closeButton.addEventListener('click', closeModal);
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+        
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             generateItems();
-            generatePassItems();
-            generateAvailableItems();
             setupTabs();
             setupRarityFilters();
             setupTabsScrolling();
+            setupAddItemButtons();
+            setupModal();
         });
     </script>
 </body>
