@@ -550,7 +550,7 @@
         
         .result-label {
             font-size: 0.9rem;
-            color: #ccc;
+            color:  #ccc;
             margin-bottom: 0.5rem;
         }
         
@@ -574,7 +574,7 @@
             margin-top: 1rem;
             padding: 0.5rem;
             background-color: rgba(0, 0, 0, 0.2);
-            borderRadius: 5px;
+            border-radius: 5px;
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -700,19 +700,19 @@
                 font-size: 0.7rem;
             }
             
-            /* Адаптация модального окна */
+            /* Адаптация модального окна - 3 юнита в ряд на мобильных */
             .modal-items-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 0.5rem;
             }
             
             .modal-item img {
-                width: 40px;
-                height: 40px;
+                width: 45px;
+                height: 45px;
             }
             
             .modal-item-name {
-                font-size: 0.6rem;
+                font-size: 0.65rem;
             }
             
             /* Адаптация фильтров */
@@ -782,9 +782,31 @@
                 font-size: 0.7rem;
             }
             
+            /* 3 юнита в ряд на маленьких экранах */
             .modal-items-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 0.4rem;
+            }
+            
+            .modal-item {
+                padding: 0.4rem;
+            }
+            
+            .modal-item img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .modal-item-name {
+                font-size: 0.6rem;
+            }
+        }
+        
+        /* Для очень маленьких экранов */
+        @media (max-width: 360px) {
+            .modal-items-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.3rem;
             }
             
             .modal-item {
@@ -798,6 +820,11 @@
             
             .modal-item-name {
                 font-size: 0.55rem;
+            }
+            
+            .modal-rarity-filter {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
             }
         }
         
@@ -898,7 +925,7 @@
                     <a href="https://t.me/SSKORPIK" class="telegram-link" target="_blank">Перейти в @SSKORPIK</a>
                 </div>
                 
-                <div class="telegram-card">
+                <div class="telegram-card {
                     <div class="telegram-icon">🌿</div>
                     <h3>Канал о сайте</h3>
                     <p class="channel-description">Канал, посвященный этому сайту и торговле в Roblox</p>
@@ -1260,7 +1287,7 @@
             // Обновляем значения на странице
             document.getElementById('left-total-value').textContent = leftValue.toLocaleString();
             document.getElementById('right-total-value').textContent = rightValue.toLocaleString();
-            document.getElementById('left-total-demand'). textContent = leftDemand;
+            document.getElementById('left-total-demand').textContent = leftDemand;
             document.getElementById('right-total-demand').textContent = rightDemand;
             
             const valueDifference = rightValue - leftValue;
