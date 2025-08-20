@@ -516,7 +516,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">SKORPIK VALUE CALCULATOR</div>
+        <div class="logo">ROBLOX TRADE HUB</div>
         <div class="tabs">
             <button class="tab-button active" data-tab="items">Предметы</button>
             <button class="tab-button" data-tab="calculator">Калькулятор</button>
@@ -602,14 +602,14 @@
                 <div class="telegram-card">
                     <div class="telegram-icon">📱</div>
                     <h3>Личный канал</h3>
-                    <p class="channel-description">Мой личный Telegram с моими видео</p>
+                    <p class="channel-description">Мой личный Telegram канал с обновлениями и новостями</p>
                     <a href="https://t.me/SSKORPIK" class="telegram-link" target="_blank">Перейти в @SSKORPIK</a>
                 </div>
                 
                 <div class="telegram-card">
                     <div class="telegram-icon">🌿</div>
                     <h3>Канал о сайте</h3>
-                    <p class="channel-description">Канал с Тирлистами</p>
+                    <p class="channel-description">Канал, посвященный этому сайту и торговле в Roblox</p>
                     <a href="https://t.me/TIERLISTGARDENTD" class="telegram-link" target="_blank">Перейти в @TIERLISTGARDENTD</a>
                 </div>
             </div>
@@ -651,23 +651,20 @@
         // Данные предметов на основе ваших скриншотов (только Divine и Exclusive)
         const itemsData = [
             // Divine items
-            { id: 1, name: "Lucky Clover", rarity: "divine", value: 6700, status: "Unstable", demand: 8, image: "https://ibb.co/PvQ2vNj8" },
-            { id: 2, name: "Blackwood", rarity: "divine", value: 9200, status: "Slowly Dropping", demand: 7.5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Blackwood" },
-            { id: 3, name: "Seed Mech", rarity: "divine", value: 6800, status: "Fluctuating", demand: 7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Seed+Mech" },
-            { id: 4, name: "Mango Clusters", rarity: "divine", value: 8300, status: "Rising", demand: 8.5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Mango+Clusters" },
-            { id: 5, name: "Crystal Rose", rarity: "divine", value: 7200, status: "Slowly Rising", demand: 8, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Crystal+Rose" },
-            { id: 6, name: "Tuki Tower", rarity: "divine", value: 9500, status: "Stable", demand: 9, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Tuki+Tower" },
-            { id: 7, name: "Electroldan", rarity: "divine", value: 8800, status: "Rising", demand: 8.2, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Electroldan" },
-            { id: 8, name: "Gold Golam", rarity: "divine", value: 10200, status: "Fluctuating", demand: 8.7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Gold+Golam" },
-            { id: 9, name: "Silver Golam", rarity: "divine", value: 9700, status: "Stable", demand: 8.3, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Silver+Golam" },
+            { id: 1, name: "Lucky Clover", rarity: "divine", value: 6700, status: "Stable", demand: 5, image: "https://files.catbox.moe/rivcgt.png" },
             
             // Exclusive items
-            { id: 10, name: "Blossom Barrage", rarity: "exclusive", value: 15000, status: "Rising", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Blossom+Barrage" },
-            { id: 11, name: "Big Mushroom", rarity: "exclusive", value: 12500, status: "Stable", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Big+Mushroom" },
-            { id: 12, name: "Electric Beetroot", rarity: "exclusive", value: 11200, status: "Unstable", demand: 9.5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Electric+Beetroot" },
-            { id: 13, name: "Dual Blaziarbud", rarity: "exclusive", value: 16800, status: "Rising", demand: 9.8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Dual+Blaziarbud" },
-            { id: 14, name: "Rosebeam", rarity: "exclusive", value: 14200, status: "Stable", demand: 9.2, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Rosebeam" },
-            { id: 15, name: "Garrotlastrophe", rarity: "exclusive", value: 13500, status: "Fluctuating", demand: 9.3, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Garrotlastrophe" }
+            { id: 2, name: "Blossoms Barrage", rarity: "exclusive", value: 20500, status: "Rising", demand: 11, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Blossoms+Barrage" },
+            { id: 3, name: "Rosebeam", rarity: "exclusive", value: 1200, status: "Rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Rosebeam" },
+            { id: 4, name: "Dual Blusterbud", rarity: "exclusive", value: 1700, status: "Rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Dual+Blusterbud" },
+            { id: 5, name: "Big Mushroom", rarity: "exclusive", value: 3275, status: "Rising", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Big+Mushroom" },
+            { id: 6, name: "Juggercorn", rarity: "exclusive", value: 700, status: "Rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Juggercorn" },
+            { id: 7, name: "Hellroot", rarity: "exclusive", value: 1900, status: "Stable", demand: 10, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Hellroot" },
+            { id: 8, name: "Corn", rarity: "exclusive", value: 200, status: "Dropping", demand: 4, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Corn" },
+            { id: 9, name: "Grapes", rarity: "exclusive", value: 700, status: "Rising", demand: 8, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Grapes" },
+            { id: 10, name: "Carrotastrophe", rarity: "exclusive", value: 600, status: "Rising", demand: 9, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Carrotastrophe" },
+            { id: 11, name: "Timekeeper", rarity: "exclusive", value: 1000, status: "Stable", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Timekeeper" },
+            { id: 12, name: "Glass Buble Plant", rarity: "exclusive", value: 425, status: "Rising", demand: 5, image: "https://via.placeholder.com/250x180/FFD700/000000?text=Glass+Buble+Plant" }
         ];
 
         // Генерация карточек предметов
