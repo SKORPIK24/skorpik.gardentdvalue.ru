@@ -160,6 +160,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .item-card:hover .item-image img {
+            transform: scale(1.05);
         }
         
         .item-content {
@@ -325,6 +330,11 @@
             align-items: center;
             justify-content: center;
             font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        
+        .quantity-btn:hover {
+            background: #FF6347;
         }
         
         .quantity-value {
@@ -343,6 +353,11 @@
             position: absolute;
             top: 5px;
             right: 5px;
+            transition: color 0.2s;
+        }
+        
+        .remove-item:hover {
+            color: #FF6347;
         }
         
         .available-items {
@@ -455,7 +470,7 @@
             border-radius: 5px;
             text-decoration: none;
             margin-top: 1rem;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             font-weight: 500;
         }
         
@@ -468,6 +483,35 @@
             margin: 1rem 0;
             color: #ccc;
         }
+        
+        .image-help {
+            background-color: var(--background-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .image-help h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .image-help ol {
+            margin-left: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .image-help li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .image-help code {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
@@ -477,6 +521,7 @@
             <button class="tab-button active" data-tab="items">Предметы</button>
             <button class="tab-button" data-tab="calculator">Калькулятор</button>
             <button class="tab-button" data-tab="telegram">Telegram</button>
+            <button class="tab-button" data-tab="help">Помощь</button>
         </div>
     </header>
     
@@ -569,13 +614,44 @@
                 </div>
             </div>
         </div>
+        
+        <div class="tab-content" id="help-content">
+            <div class="image-help">
+                <h3>Как добавить свои изображения на сайт</h3>
+                <ol>
+                    <li>Загрузите изображения на один из бесплатных хостингов:
+                        <ul>
+                            <li><a href="https://imgbb.com/" target="_blank">ImgBB</a> (рекомендуется)</li>
+                            <li><a href="https://postimages.org/" target="_blank">PostImages</a></li>
+                            <li><a href="https://imgur.com/" target="_blank">Imgur</a></li>
+                        </ul>
+                    </li>
+                    <li>После загрузки скопируйте <strong>прямую ссылку</strong> на изображение</li>
+                    <li>В коде найдите массив <code>itemsData</code> и замените ссылки в свойстве <code>image</code></li>
+                    <li>Сохраните изменения и обновите страницу</li>
+                </ol>
+                
+                <p><strong>Пример:</strong></p>
+                <pre><code>{
+    id: 1,
+    name: "Lucky Clover",
+    rarity: "divine",
+    value: 7750,
+    status: "Unstable",
+    demand: 8,
+    image: "https://i.ibb.co/abc123/your-image.png" // Ваша ссылка здесь
+}</code></pre>
+                
+                <p><strong>Примечание:</strong> Некоторые хостинги (включая Catbox) могут блокировать загрузку изображений на других сайтах из-за политики CORS. ImgBB обычно работает без проблем.</p>
+            </div>
+        </div>
     </div>
 
     <script>
         // Данные предметов на основе ваших скриншотов (только Divine и Exclusive)
         const itemsData = [
             // Divine items
-            { id: 1, name: "Lucky Clover", rarity: "divine", value: 7750, status: "Unstable", demand: 8, image: "https://files.catbox.moe/3avkf6.png" },
+            { id: 1, name: "Lucky Clover", rarity: "divine", value: 6700, status: "Unstable", demand: 8, image: "https://files.catbox.moe/3avkf6.png" },
             { id: 2, name: "Blackwood", rarity: "divine", value: 9200, status: "Slowly Dropping", demand: 7.5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Blackwood" },
             { id: 3, name: "Seed Mech", rarity: "divine", value: 6800, status: "Fluctuating", demand: 7, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Seed+Mech" },
             { id: 4, name: "Mango Clusters", rarity: "divine", value: 8300, status: "Rising", demand: 8.5, image: "https://via.placeholder.com/250x180/9370DB/FFFFFF?text=Mango+Clusters" },
@@ -612,7 +688,7 @@
                 
                 itemCard.innerHTML = `
                     <div class="item-image">
-                        <img src="${item.image}" alt="${item.name}">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/250x180/333333/FFFFFF?text=Image+Not+Found'">
                     </div>
                     <div class="item-content">
                         <h3 class="item-title">${item.name}</h3>
@@ -667,7 +743,7 @@
                 availableItem.draggable = true;
                 
                 availableItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/50x50/333333/FFFFFF?text=!'">
                     <span class="available-item-name">${item.name}</span>
                 `;
                 
@@ -813,7 +889,7 @@
                 itemElement.dataset.quantity = 1;
                 
                 itemElement.innerHTML = `
-                    <img src="${itemData.image}" alt="${itemData.name}">
+                    <img src="${itemData.image}" alt="${itemData.name}" onerror="this.src='https://via.placeholder.com/40x40/333333/FFFFFF?text=!'">
                     <div class="calculator-item-info">
                         <div class="calculator-item-name">${itemData.name}</div>
                         <div class="calculator-item-price">${itemData.value.toLocaleString()}</div>
