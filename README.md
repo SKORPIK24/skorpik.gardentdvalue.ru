@@ -1,1 +1,0 @@
-# skorpik.value.ru
